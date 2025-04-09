@@ -5,6 +5,8 @@ contract HelloWorld {
 
     bool boolVar = true;
 
+
+
     // 表示只允许存储 [0,2^8-1] = [0,255]
     uint8 unitVar = 254;
     // unit = uint256
@@ -24,8 +26,31 @@ contract HelloWorld {
         return addinfo(strVar);
     }
 
+    function sayHelloInfo(uint256 _id) public view returns(string memory){
+        for (uint256 i = 0; i < infos.length; i++){
+            if (infos[i].id == _id) {
+                return addinfo(infos[i].phrase);
+            }
+        }
+        return addinfo(strVar);
+    }
+
+    function sayHelloMappingInfo(uint256 _id) public view returns(string memory){
+        // 空指针判断
+        if (infoMapping[_id].addr == address(0x0)){
+            return addinfo(strVar);
+        }
+        return addinfo(infoMapping[_id].phrase); 
+    }
+
     function setHelloWorld(string memory newString) public {
         strVar = newString;
+    }    
+
+    function setHelloWorldStruct(string memory newString, uint256 _id) public {
+        Info memory info = Info(newString, _id, msg.sender);
+        infos.push(info);
+        infoMapping[_id] = info;
     }
 
     // pure 不做修改，僅作運算操作
@@ -49,6 +74,10 @@ contract HelloWorld {
     
     struct Info {
         string phrase;
-
+        uint256 id;
+        address addr;
     }
+    Info[] infos;
+
+    mapping(uint256 id => Info info) infoMapping;
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity ^0.8.26;
 
-contract HelloWorld {
+contract HelloWorldTest {
 
     bool boolVar = true;
 
@@ -80,4 +80,6 @@ contract HelloWorld {
     Info[] infos;
 
     mapping(uint256 id => Info info) infoMapping;
+
+
 }
